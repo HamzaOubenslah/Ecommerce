@@ -6,6 +6,7 @@ import RegisterPage from "./Pages/RegisterPage";
 import AuthProvider from "./context/AuthContext";
 import LoginPage from "./Pages/LoginPage";
 import CartPage from "./Pages/CartPage";
+import ProtectedRoute from "./Component/ProtectedRoute";
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
           <Route path="/second" element={<SecondComponent />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/cart" element={<CartPage />} />
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>
