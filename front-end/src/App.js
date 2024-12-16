@@ -5,6 +5,7 @@ import Navbar from "./Component/Navbar";
 import RegisterPage from "./Pages/RegisterPage";
 import AuthProvider from "./context/AuthContext";
 import LoginPage from "./Pages/LoginPage";
+import CartPage from "./Pages/CartPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/second" element={<SecondComponent />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </Router>
     </AuthProvider>
