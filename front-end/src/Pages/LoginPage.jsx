@@ -3,37 +3,35 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const RegisterPage = () => {
-  const nameRef = useRef(null);
+const LoginPage = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const Navigate=useNavigate();
   const [error, setError] = useState(null);
   const { login } = useAuth();
+  const Navigate=useNavigate();
   const handleSubmit = async () => {
-    const username = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    if (!username || !email || !password) {
+    if (!email || !password) {
       setError("All fields are required!");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:5000/users/register", {
+      const response = await fetch("http://localhost:5000/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const token = await response.json();
       if (!token) {
         return;
       }
-      login({email, token});
+      login({ email, token });
       Navigate('/');
 
       if (response.ok) {
@@ -59,7 +57,7 @@ const RegisterPage = () => {
           gap: "40px",
         }}
       >
-        <Typography variant="h3">Register New Account</Typography>
+        <Typography variant="h3">Login To Your Account</Typography>
         <Box
           sx={{
             display: "flex",
@@ -70,7 +68,6 @@ const RegisterPage = () => {
             padding: "20px",
           }}
         >
-          <TextField label="Username" inputRef={nameRef} />
           <TextField label="Email" inputRef={emailRef} />
           <TextField label="Password" type="password" inputRef={passwordRef} />
           <Button variant="contained" color="info" onClick={handleSubmit}>
@@ -83,4 +80,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
