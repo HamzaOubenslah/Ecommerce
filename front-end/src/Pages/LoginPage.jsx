@@ -8,7 +8,7 @@ const LoginPage = () => {
   const passwordRef = useRef(null);
   const [error, setError] = useState(null);
   const { login } = useAuth();
-  const Navigate=useNavigate();
+  const Navigate = useNavigate();
   const handleSubmit = async () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -31,11 +31,12 @@ const LoginPage = () => {
       if (!token) {
         return;
       }
-      login({ email, token });
-      Navigate('/');
+      console.log(token);
 
       if (response.ok) {
         console.log("Registration successful:", token);
+        login({ email, token });
+        Navigate("/");
       } else {
         console.error("Registration failed:", token.message);
         setError("You Can't Register, Try Another Credentials");

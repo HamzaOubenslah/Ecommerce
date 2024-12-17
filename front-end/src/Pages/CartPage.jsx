@@ -1,11 +1,14 @@
-import { Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
+import { BrowserRouter } from "react-router-dom";
 
 const CartPage = () => {
   const [cart, setCart] = useState();
   const [error, setError] = useState("");
   const { token } = useAuth();
+  const {cartItems,totalAmount}=useCart();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -30,6 +33,9 @@ const CartPage = () => {
   return (
     <Container>
       <Typography variant="h4">My Cart</Typography>
+      {cartItems.map((i)=>(
+        <Box>{i.name}</Box>
+      ))}
     </Container>
   );
 };
