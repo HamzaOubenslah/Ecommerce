@@ -4,8 +4,8 @@ export const Auth = createContext(null);
 export const useAuth = () => useContext(Auth);
 
 const AuthProvider = ({ children }) => {
-  const [email, setEmail] = useState(localStorage.getItem("email"));
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [email, setEmail] = useState(localStorage.getItem('email'));
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const login = ({ email, token }) => {
     setEmail(email);
     setToken(token);

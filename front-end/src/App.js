@@ -7,10 +7,12 @@ import AuthProvider from "./context/AuthContext";
 import LoginPage from "./Pages/LoginPage";
 import CartPage from "./Pages/CartPage";
 import ProtectedRoute from "./Component/ProtectedRoute";
+import CartProvider from "./context/CartContext";
 
 function App() {
   return (
     <AuthProvider>
+      <CartProvider>
       <Router>
         <Navbar />
         <Routes>
@@ -23,6 +25,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }
