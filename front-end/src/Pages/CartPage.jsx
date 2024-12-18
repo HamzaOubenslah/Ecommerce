@@ -15,24 +15,17 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 const CartPage = () => {
   const [cart, setCart] = useState();
   const [error, setError] = useState("");
-  const { token } = useAuth();
-  const { cartItems, totalAmount, setCartItems } = useCart();
-  // const AddQuantity = (id) => {
-  //   setCartItems([
-  //     cartItems.find((i) => i.productId.toString() === id)["quantity"] + 1,
-  //   ]);
-  // };
-  console.log(cartItems);
-
-  console.log(cart);
+  const { cartItems, totalAmount, updateCartItem, deleteProductFromCart,clearProductInCart } =
+    useCart();
+  console.log("This Is CartItems", cartItems);
   return (
     <Container sx={{ mt: 4 }}>
-      <TableContainer component={Paper}>
+      <TableContainer sx={{display:'flex',flexDirection:"column"}} component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             {cartItems.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.productId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
@@ -50,21 +43,46 @@ const CartPage = () => {
                     variant="contained"
                     aria-label="Basic button group"
                   >
-                    <Button>
+                    <Button
+                      onClick={() =>
+                        updateCartItem(row.productId, row.quantity + 1)
+                      }
+                    >
                       +
                     </Button>
-                    <Button>-</Button>
+                    <Button
+                      onClick={() =>
+                        updateCartItem(row.productId, row.quantity - 1)
+                      }
+                    >
+                      -
+                    </Button>
                   </ButtonGroup>
                 </TableCell>
                 <TableCell>
-                  <Button variant="contained" sx={{background:'red', color:"#fff"}}>Remove Item</Button>
+                  <Button
+                    variant="contained"
+                    sx={{ background: "red", color: "#fff" }}
+                    onClick={() => deleteProductFromCart(row.productId)}
+                  >
+                    Remove Item
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "red", color: "white" }}
+          onClick={clearProductInCart}
+        >
+          Clear Cart
+        </Button>
       </TableContainer>
-      <Typography sx={{mt:2}} variant="h4">Total Amount:{totalAmount.toFixed(2)}$</Typography>
+      <Typography sx={{ mt: 2 }} variant="h4">
+        Total Amount:{totalAmount.toFixed(2)}$
+      </Typography>
     </Container>
   );
 };
