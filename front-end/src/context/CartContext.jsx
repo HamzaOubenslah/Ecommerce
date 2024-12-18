@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState,useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
 export const Cart = createContext(null);
@@ -9,6 +9,35 @@ const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+      const fetchCart = async () => {
+        if (!token) {
+          return;
+        }
+        const response = await fetch("http://localhost:5000/cart", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          setError("Failed To Fetch Cart");
+          return;
+        }
+        const cart = await response.json();
+        console.log(cart)
+        const cartItemsMapped = cart.items.map(({product, quantity}) => ({
+          productId: product._id,
+          name: product.name,
+          image: product.image,
+          quantity,
+          price: product.price,
+        }));
+        setCartItems([...cartItemsMapped]);
+        setTotalAmount(cart.totalAmount)
+      };
+      fetchCart();
+    }, [token]);
 
   const addItemToCart = async (productId) => {
     try {
@@ -42,7 +71,7 @@ const CartProvider = ({ children }) => {
   };
 
   return (
-    <Cart.Provider value={{ cartItems, totalAmount, addItemToCart }}>
+    <Cart.Provider value={{ cartItems, totalAmount, addItemToCart,setCartItems }}>
       {children}
     </Cart.Provider>
   );

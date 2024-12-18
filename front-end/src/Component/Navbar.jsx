@@ -17,6 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useCart } from "../context/CartContext";
 
 const pages = ["Products", "Pricing", "Blog"];
 
@@ -25,6 +26,8 @@ function Navbar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { email, token, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  const { cartItems } = useCart();
 
   const handleLogout = () => {
     logout();
@@ -50,12 +53,13 @@ function Navbar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Button variant="text" sx={{color:"#fff"}} onClick={()=>navigate('/')}>
+            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href=""
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -68,6 +72,8 @@ function Navbar() {
           >
             TECH HUB
           </Typography>
+          </Button>
+          
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -140,9 +146,17 @@ function Navbar() {
             alignItems="center"
             gap={4}
           >
-            <IconButton aria-label="cart" onClick={()=>{navigate('/cart')}}>
-              <Badge badgeContent={1} color="secondary">
-                <ShoppingCartIcon sx={{ color: "#ffffff" }}/>
+            <IconButton
+              aria-label="cart"
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
+              <Badge
+                badgeContent={token ? cartItems.length : 0}
+                color="secondary"
+              >
+                <ShoppingCartIcon sx={{ color: "#ffffff" }} />
               </Badge>
             </IconButton>
             {isAuthenticated ? (
