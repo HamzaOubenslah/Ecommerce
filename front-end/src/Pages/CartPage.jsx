@@ -90,7 +90,7 @@ const CartPage = () => {
           >
             Clear Cart
           </Button>
-          <Button variant="contained" color="info" onClick={()=>{navigate('/')}}>
+          <Button variant="contained" color="info" onClick={()=>{navigate('/checkout')}}>
             Checkout
           </Button>
         </Box>
