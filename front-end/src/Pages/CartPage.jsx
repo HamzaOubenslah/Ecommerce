@@ -11,16 +11,26 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import {useNavigate} from 'react-router-dom';
 
 const CartPage = () => {
   const [cart, setCart] = useState();
   const [error, setError] = useState("");
-  const { cartItems, totalAmount, updateCartItem, deleteProductFromCart,clearProductInCart } =
-    useCart();
+  const {
+    cartItems,
+    totalAmount,
+    updateCartItem,
+    deleteProductFromCart,
+    clearProductInCart,
+  } = useCart();
+  const navigate=useNavigate()
   console.log("This Is CartItems", cartItems);
   return (
     <Container sx={{ mt: 4 }}>
-      <TableContainer sx={{display:'flex',flexDirection:"column"}} component={Paper}>
+      <TableContainer
+        sx={{ display: "flex", flexDirection: "column" }}
+        component={Paper}
+      >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             {cartItems.map((row) => (
@@ -72,13 +82,18 @@ const CartPage = () => {
             ))}
           </TableBody>
         </Table>
-        <Button
-          variant="contained"
-          sx={{ backgroundColor: "red", color: "white" }}
-          onClick={clearProductInCart}
-        >
-          Clear Cart
-        </Button>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "red", color: "white" }}
+            onClick={clearProductInCart}
+          >
+            Clear Cart
+          </Button>
+          <Button variant="contained" color="info" onClick={()=>{navigate('/')}}>
+            Checkout
+          </Button>
+        </Box>
       </TableContainer>
       <Typography sx={{ mt: 2 }} variant="h4">
         Total Amount:{totalAmount.toFixed(2)}$
